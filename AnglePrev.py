@@ -16,7 +16,7 @@ def getRad(p1,p2,p3):
   v2 = np.subtract(p3, p1)
   norm1 = v1 / np.linalg.norm(v1) # The unit vector. so we dont have to devide by distance.
   norm2 = v2 / np.linalg.norm(v2)
-  return np.degrees(np.arccos(np.dot(norm1,norm2)))
+  return np.dot(norm1,norm2)
 
 
 
@@ -58,8 +58,44 @@ def plotRandomDistances(elements,dims,reduceddims):
   plt.hist(vals,"auto")
   plt.show()
 
+#plotRandomDistances(30,1000,50)
+#plotRandomDistances(30,1000,100)
+
+def plotRandomDistances(elements,dims,reduceddims):
+  vals = []
+  a = np.random.rand(elements,dims)
+  res = fjlt_usp(a.transpose(),reduceddims).transpose()
+  for i in range(0,elements ):
+    for j in range(i, elements ):
+      for k in range(j, elements ):
+        if(i != j and i != k and j != k):
+          vals.append( getRad(a[i],a[j],a[k]) - getRad(res[i],res[j],res[k]))
+  vals = [x for x in vals if (math.isnan(x) != True)]
+  vals = sorted(vals)
+  plt.hist(vals,"auto")
+  plt.show()
+
 plotRandomDistances(30,1000,50)
 plotRandomDistances(30,1000,100)
+
+def plotNormalDistances(elements,dims,reduceddims):
+  vals = []
+  mu = 0
+  sigma = 0.001
+  a = np.random.normal(mu,sigma,(elements,dims))
+  res = fjlt_usp(a.transpose(),reduceddims).transpose()
+  for i in range(0,elements ):
+    for j in range(i, elements ):
+      for k in range(j, elements ):
+        if(i != j and i != k and j != k):
+          vals.append( getRad(a[i],a[j],a[k]) - getRad(res[i],res[j],res[k]))
+  vals = [x for x in vals if (math.isnan(x) != True)]
+  vals = sorted(vals)
+  plt.hist(vals,"auto")
+  plt.show()
+
+plotNormalDistances(30,1000,50)
+plotNormalDistances(30,1000,100)
 
 
 def testRandom(elements,dims,reduceddims):
