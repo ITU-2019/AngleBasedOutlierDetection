@@ -4,7 +4,8 @@
 To run the code. go into the fht_repo folder run.
 
 '''
-setup build
+python setup.py build
 '''
 
-Go into the build folder generated inside the fht_repo folder, and move it to the build folder in root. all generated files should be git ignored.
+Go into the build folder generated inside the fht_repo folder and then into the lib folder, and move the folder called fht to the build folder in root. 
+All generated files should be git ignored.
