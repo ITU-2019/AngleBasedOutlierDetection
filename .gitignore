@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Ignore the builded liberary.
+
+build/fht/
