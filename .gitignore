@@ -34,3 +34,4 @@
 # Ignore the builded liberary.
 
 build/fht/
+__pycache__/
