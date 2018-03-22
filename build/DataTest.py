@@ -47,7 +47,7 @@ def getRad(p1,p2,p3):
   norm2 = v2 / np.linalg.norm(v2)
   return np.dot(norm1,norm2)
 
-def plotDistances(title, a, reduceddims):
+def plotDistances(title, a, reduceddims, outlierCount = None):
   print(
     title, ": DISTANCE: ", len(a), " elements, with ", len(a[0]), " dimensions, reduced to "
     , reduceddims, " dimensions"
@@ -55,7 +55,14 @@ def plotDistances(title, a, reduceddims):
   vals = []
   elements = len(a)
   res = fjlt_usp(a.transpose(),reduceddims).transpose()
-  for i in range(0, elements):
+
+  select = elements
+  if outlierCount != None:
+    select = outlierCount
+
+  print(select)
+
+  for i in range(0, select):
     for j in range(i, elements ):
       for k in range(j, elements ):
         if(i != j and i != k and j != k):
@@ -65,7 +72,7 @@ def plotDistances(title, a, reduceddims):
   plt.hist(vals,"auto")
   plt.show()
 
-def plotNormalDistances(title, a, reduceddims):
+def plotNormalDistances(title, a, reduceddims, outlierCount = None):
   print(
     title, ": NORMAL DISTANCE: ", len(a), " elements, with ", len(a[0]), " dimensions, reduced to "
     , reduceddims, " dimensions"
@@ -85,11 +92,17 @@ def plotNormalDistances(title, a, reduceddims):
   plt.hist(vals,"auto")
   plt.show()
 
-def averageAngle(title, a, reduceddims):
+def averageAngle(title, a, reduceddims, outlierCount = None):
   elements = len(a)
   res = fjlt_usp(a.transpose(),reduceddims).transpose()
   avg = 0
-  for i in range(0,elements - 3):
+  r = None
+  if outlierCount == None:
+    r = range(0,elements - 3)
+  else:
+    r = range(0,outlierCount)
+    elements = outlierCount
+  for i in r:
     avg += abs(getAngle(a[i],a[i+1],a[i+2]) - getAngle(res[i],res[i+1],res[i+2]))
   print(
     title, ": AVG angle diff : ", (avg / elements), " degrees | " , len(a), " elements, with ", len(a[0]), " dimensions, reduced to "
@@ -107,26 +120,27 @@ def runMfeat():
   (allPoints, outliers) = parse("data/mfeat_69_0.txt", 10)
   npPoints = arrayToNumpy(allPoints)
   npOutlier = arrayToNumpy(outliers)
-  runTests("optdigits", npPoints, npOutlier)
+  runTests("mfeat", npPoints, npOutlier)
 
 def runIsolet():
   (allPoints, outliers) = parse("data/isolet_CDE_Y.txt", 10)
   npPoints = arrayToNumpy(allPoints)
   npOutlier = arrayToNumpy(outliers)
-  runTests("optdigits", npPoints, npOutlier)
+  runTests("isolet", npPoints, npOutlier)
 
 def runTests(title, allPoints, outliers):
-  #plotDistances(title + ", allPoints", allPoints, 25)
+  plotDistances(title + ", allPoints", allPoints, 25, 10)
   plotDistances(title + ", outlier", outliers, 25)
 
   #plotNormalDistances(title + ", allPoints", allPoints, 25)
   plotNormalDistances(title + ", outlier", outliers, 25)
 
   averageAngle(title + ", allPoints", allPoints, 25)
+  averageAngle(title + ", allPoints-out", allPoints, 25, 10)
   averageAngle(title + ", outlier", outliers, 25)
 
-#runOptDigits();
+runOptDigits();
 #runMfeat();
-runIsolet();
+#runIsolet();
 
 print("Done plot")
