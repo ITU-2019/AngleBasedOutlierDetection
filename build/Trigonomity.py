@@ -16,6 +16,14 @@ def getRad(p1,p2,p3):
   norm2 = v2 / np.linalg.norm(v2)
   return np.dot(norm1,norm2)
 
+# using lengths of sides.
+def getAngle2(a,b,c):
+  if(b+c < a ):
+    return 180
+  if(a <= 0):
+    return 0
+  return np.degrees(np.arccos((b**2 + c**2 - (a**2))/(2*b*c)))
+
 
 # Dont Use
 def dotWithoutNormalization(p1,p2,p3):
