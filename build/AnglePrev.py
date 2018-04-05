@@ -2,22 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from fjlt import *
-
-# angle of p1
-def getAngle(p1,p2,p3):
-  v1 = np.subtract(p2, p1)
-  v2 = np.subtract(p3, p1)
-  norm1 = v1 / np.linalg.norm(v1) # The unit vector. so we dont have to devide by distance.
-  norm2 = v2 / np.linalg.norm(v2)
-  return np.degrees(np.arccos(np.dot(norm1,norm2)))
-
-def getRad(p1,p2,p3):
-  v1 = np.subtract(p2, p1)
-  v2 = np.subtract(p3, p1)
-  norm1 = v1 / np.linalg.norm(v1) # The unit vector. so we dont have to devide by distance.
-  norm2 = v2 / np.linalg.norm(v2)
-  return np.dot(norm1,norm2)
-
+from Trigonomity import *
 
 
 print("Straigt line")
@@ -140,11 +125,7 @@ print(testRandom(1000,1000,15))
 
 
 
-# Dont Use
-def dotWithoutNormalization(p1,p2,p3):
-  v1 = np.subtract(p2, p1)
-  v2 = np.subtract(p3, p1)
-  return np.dot(v1,v2)
+
 
 ## DONT USE
 def plotRandomDistancesDotValues(elements,dims,reduceddims):

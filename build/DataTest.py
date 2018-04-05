@@ -116,10 +116,10 @@ def runIsolet():
   runTests("optdigits", npPoints, npOutlier)
 
 def runTests(title, allPoints, outliers):
-  #plotDistances(title + ", allPoints", allPoints, 25)
+  plotDistances(title + ", allPoints", allPoints, 25)
   plotDistances(title + ", outlier", outliers, 25)
 
-  #plotNormalDistances(title + ", allPoints", allPoints, 25)
+  plotNormalDistances(title + ", allPoints", allPoints, 25)
   plotNormalDistances(title + ", outlier", outliers, 25)
 
   averageAngle(title + ", allPoints", allPoints, 25)
