@@ -20,6 +20,10 @@ def getRad(p1,p2,p3):
 def getAngle2(a,b,c):
   if(b+c < a ):
     return 180
+  if(a+b < c):
+    return 0
+  if(a+c < b):
+    return 0
   if(a <= 0):
     return 0
   return np.degrees(np.arccos((b**2 + c**2 - (a**2))/(2*b*c)))
