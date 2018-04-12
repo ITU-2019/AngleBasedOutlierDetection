@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from fjlt import *
 from Trigonomity import *
 
+plt.style.use('ggplot')
 
 def printKValues(e,n):
   #k1 = 4/((((e**2)/2)-((e**3)/3)))* log(n) # Simple proofOur paper. 
@@ -19,7 +20,7 @@ def printE(elements,dims,reduceddims, q, e):
   maxAfterAngles = []
   minAfterAngles = []
 
-  outlier = np.full((1, dims),2)
+  outlier = np.full((1, dims),5)
   print(outlier.shape)
   randomSphere = np.random.rand(elements,dims)
   print(randomSphere.shape)
@@ -61,15 +62,17 @@ def printE(elements,dims,reduceddims, q, e):
   plt.plot(maxAfterAngles, alpha=0.7, label= "maxafter") 
   plt.plot(minAfterAngles, alpha=0.7, label= "minafter") 
   plt.plot(beforeAngles, alpha=0.7, label="before")
-  plt.ylim(ymin = 0)
-  _,ymax = plt.ylim()
-  plt.ylim(ymax = ymax + 10)
+  ymin,ymax = plt.ylim()
+  #plt.ylim(ymax = ymax + )
+  #plt.yticks(np.arange(ymin, ymax, 15))
+  plt.ylabel("angle")
+  plt.xticks(np.arange(0, individuals, individuals +1))
   plt.legend(loc='upper left')  
   plt.show()
 
 
 individuals = 1000
-e = 0.99
+e = 0.5
 k = printKValues(e,individuals)
 print(k)
 printE(individuals,1000,k, 0.9, e)
