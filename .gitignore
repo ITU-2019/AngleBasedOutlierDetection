@@ -35,3 +35,4 @@
 
 build/fht/
 __pycache__/
+.vscode
