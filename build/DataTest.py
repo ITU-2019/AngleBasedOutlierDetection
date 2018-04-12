@@ -129,11 +129,9 @@ def runIsolet():
   runTests("isolet", npPoints, npOutlier)
 
 def runTests(title, allPoints, outliers):
-<<<<<<< HEAD
+
   plotDistances(title + ", allPoints", allPoints, 25)
-=======
   plotDistances(title + ", allPoints", allPoints, 25, 10)
->>>>>>> e3a48538219f8e9f06b0b9a21d8e7cb253e35273
   plotDistances(title + ", outlier", outliers, 25)
 
   plotNormalDistances(title + ", allPoints", allPoints, 25)
