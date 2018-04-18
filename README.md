@@ -14,6 +14,8 @@ To run the code. go into the fht_repo folder run:
 ```bash
 cd fht_repo
 python setup.py build
+cd ..
+mv fht_repo/fht build
 ```
 
 Go into the build folder generated inside the fht_repo folder and then into the lib folder, and move the folder called fht to the build folder in root.
@@ -23,5 +25,5 @@ To run the files:
 ```bash
 cd build
 # fx.
-python DataTest.py data/somefile.txt 
+python DataTest.py
 ```
