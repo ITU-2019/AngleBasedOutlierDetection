@@ -3,15 +3,17 @@
 Dependencies:
 
 ```bash
-pip3 install numpy
-pip3 install scipy
+python -m pip install --upgrade pip
+pip install numpy
+pip install scipy
+pip install matplotlib
 ```
 
 To run the code. go into the fht_repo folder run:
 
-```
+```bash
 cd fht_repo
-python3 setup.py build
+python setup.py build
 ```
 
 Go into the build folder generated inside the fht_repo folder and then into the lib folder, and move the folder called fht to the build folder in root.
@@ -21,5 +23,5 @@ To run the files:
 ```bash
 cd build
 # fx.
-python3 DataTest.py data/somefile.txt 
+python DataTest.py data/somefile.txt 
 ```
