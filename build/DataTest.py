@@ -54,43 +54,13 @@ def plotDistances(title, a, reduceddims, outlierCount = None):
   )
   vals = []
   elements = len(a)
-  res = fjlt_usp(a.transpose(),reduceddims).transpose()
+  q = 0.5
+  res = fjlt(a.transpose(),reduceddims, q).transpose()
 
-  select = elements
-  if outlierCount != None:
-    select = outlierCount
 
-  print(select)
+  print(res)
 
-  for i in range(0, select):
-    for j in range(i, elements ):
-      for k in range(j, elements ):
-        if(i != j and i != k and j != k):
-          vals.append( getAngle(a[i],a[j],a[k]) - getAngle(res[i],res[j],res[k]))
-  vals = [x for x in vals if (math.isnan(x) != True)]
-  vals = sorted(vals)
-  plt.hist(vals,"auto")
-  plt.show()
 
-def plotNormalDistances(title, a, reduceddims, outlierCount = None):
-  print(
-    title, ": NORMAL DISTANCE: ", len(a), " elements, with ", len(a[0]), " dimensions, reduced to "
-    , reduceddims, " dimensions"
-  )
-  vals = []
-  mu = 0
-  sigma = 0.001
-  elements = len(a)
-  res = fjlt_usp(a.transpose(),reduceddims).transpose()
-  for i in range(0,elements ):
-    for j in range(i, elements ):
-      for k in range(j, elements ):
-        if(i != j and i != k and j != k):
-          vals.append( getRad(a[i],a[j],a[k]) - getRad(res[i],res[j],res[k]))
-  vals = [x for x in vals if (math.isnan(x) != True)]
-  vals = sorted(vals)
-  plt.hist(vals,"auto")
-  plt.show()
 
 def averageAngle(title, a, reduceddims, outlierCount = None):
   elements = len(a)
@@ -111,7 +81,7 @@ def averageAngle(title, a, reduceddims, outlierCount = None):
   return avg / elements
 
 def runOptDigits():
-  (allPoints, outliers) = parse("data/optdigits_39_0.txt", 10)
+  (allPoints, outliers) = parse("output.txt", 10)
   npPoints = arrayToNumpy(allPoints)
   npOutlier = arrayToNumpy(outliers)
   runTests("optdigits", npPoints, npOutlier)
@@ -129,13 +99,14 @@ def runIsolet():
   runTests("isolet", npPoints, npOutlier)
 
 def runTests(title, allPoints, outliers):
-
-  plotDistances(title + ", allPoints", allPoints, 25)
   plotDistances(title + ", allPoints", allPoints, 25, 10)
-  plotDistances(title + ", outlier", outliers, 25)
 
-  plotNormalDistances(title + ", allPoints", allPoints, 25)
-  plotNormalDistances(title + ", outlier", outliers, 25)
+  print(allPoints)
+  np.savetxt('output2.txt', allPoints, fmt="%e")
+  #plotDistances(title + ", outlier", outliers, 25)
+
+  #plotNormalDistances(title + ", allPoints", allPoints, 25)
+  #plotNormalDistances(title + ", outlier", outliers, 25)
 
   averageAngle(title + ", allPoints", allPoints, 25)
   averageAngle(title + ", allPoints-out", allPoints, 25, 10)
