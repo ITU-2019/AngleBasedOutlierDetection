@@ -32,10 +32,10 @@ def createDimReducedFiles(input, output):
   npPoints = arrayToNumpy(allPoints)
 
   q = 0.5
-  for i in range(1,10):
+  for i in range(1,11):
     dims = 2**i
     res = fjlt(npPoints.transpose(),dims, q).transpose()
-    np.savetxt((outputfile) + str(dims) +".txt", res, fmt="%e")
+    np.savetxt((output) + str(dims) +".txt", res, fmt="%e")
 
 
 if __name__ == "__main__":
@@ -50,4 +50,4 @@ if __name__ == "__main__":
   
   createDimReducedFiles(file_name, output_name)
   
-  print("Done Cool !")
+  print("Done: " + output_name)
