@@ -36,3 +36,5 @@
 build/fht/
 __pycache__/
 .vscode
+
+build/data/output

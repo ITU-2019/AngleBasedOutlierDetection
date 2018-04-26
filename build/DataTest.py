@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
+
 from fjlt import *
 
 def parse(filename, outlierCount):
@@ -32,117 +34,34 @@ def arrayToNumpy(arr):
         a = np.concatenate((a, [point]))
   return a
 
-# angle of p1
-def getAngle(p1,p2,p3):
-  v1 = np.subtract(p2, p1)
-  v2 = np.subtract(p3, p1)
-  norm1 = v1 / np.linalg.norm(v1) # The unit vector. so we dont have to devide by distance.
-  norm2 = v2 / np.linalg.norm(v2)
-  return np.degrees(np.arccos(np.dot(norm1,norm2)))
 
-def getRad(p1,p2,p3):
-  v1 = np.subtract(p2, p1)
-  v2 = np.subtract(p3, p1)
-  norm1 = v1 / np.linalg.norm(v1) # The unit vector. so we dont have to devide by distance.
-  norm2 = v2 / np.linalg.norm(v2)
-  return np.dot(norm1,norm2)
-
-def plotDistances(title, a, reduceddims, outlierCount = None):
-  print(
-    title, ": DISTANCE: ", len(a), " elements, with ", len(a[0]), " dimensions, reduced to "
-    , reduceddims, " dimensions"
-  )
-  vals = []
-  elements = len(a)
-  res = fjlt_usp(a.transpose(),reduceddims).transpose()
-
-  select = elements
-  if outlierCount != None:
-    select = outlierCount
-
-  print(select)
-
-  for i in range(0, select):
-    for j in range(i, elements ):
-      for k in range(j, elements ):
-        if(i != j and i != k and j != k):
-          vals.append( getAngle(a[i],a[j],a[k]) - getAngle(res[i],res[j],res[k]))
-  vals = [x for x in vals if (math.isnan(x) != True)]
-  vals = sorted(vals)
-  plt.hist(vals,"auto")
-  plt.show()
-
-def plotNormalDistances(title, a, reduceddims, outlierCount = None):
-  print(
-    title, ": NORMAL DISTANCE: ", len(a), " elements, with ", len(a[0]), " dimensions, reduced to "
-    , reduceddims, " dimensions"
-  )
-  vals = []
-  mu = 0
-  sigma = 0.001
-  elements = len(a)
-  res = fjlt_usp(a.transpose(),reduceddims).transpose()
-  for i in range(0,elements ):
-    for j in range(i, elements ):
-      for k in range(j, elements ):
-        if(i != j and i != k and j != k):
-          vals.append( getRad(a[i],a[j],a[k]) - getRad(res[i],res[j],res[k]))
-  vals = [x for x in vals if (math.isnan(x) != True)]
-  vals = sorted(vals)
-  plt.hist(vals,"auto")
-  plt.show()
-
-def averageAngle(title, a, reduceddims, outlierCount = None):
-  elements = len(a)
-  res = fjlt_usp(a.transpose(),reduceddims).transpose()
-  avg = 0
-  r = None
-  if outlierCount == None:
-    r = range(0,elements - 3)
-  else:
-    r = range(0,outlierCount)
-    elements = outlierCount
-  for i in r:
-    avg += abs(getAngle(a[i],a[i+1],a[i+2]) - getAngle(res[i],res[i+1],res[i+2]))
-  print(
-    title, ": AVG angle diff : ", (avg / elements), " degrees | " , len(a), " elements, with ", len(a[0]), " dimensions, reduced to "
-    , reduceddims, " dimensions"
-  )
-  return avg / elements
-
-def runOptDigits():
-  (allPoints, outliers) = parse("data/optdigits_39_0.txt", 10)
+def createDimReducedFiles(input, output, outliersNumber):
+  (allPoints, outliers) = parse(input, outliersNumber)
   npPoints = arrayToNumpy(allPoints)
   npOutlier = arrayToNumpy(outliers)
-  runTests("optdigits", npPoints, npOutlier)
+  runTests(npPoints, npOutlier, output)
 
-def runMfeat():
-  (allPoints, outliers) = parse("data/mfeat_69_0.txt", 10)
-  npPoints = arrayToNumpy(allPoints)
-  npOutlier = arrayToNumpy(outliers)
-  runTests("mfeat", npPoints, npOutlier)
+def runTests( allPoints, outliers, outputfile):
+  q = 0.5
+  for i in range(10,101,10):
+    res = fjlt(allPoints.transpose(),i, q).transpose()
+    np.savetxt((outputfile) + str(i) +".txt", res, fmt="%e")
 
-def runIsolet():
-  (allPoints, outliers) = parse("data/isolet_CDE_Y.txt", 10)
-  npPoints = arrayToNumpy(allPoints)
-  npOutlier = arrayToNumpy(outliers)
-  runTests("isolet", npPoints, npOutlier)
 
-def runTests(title, allPoints, outliers):
+if __name__ == "__main__":
+  ap = argparse.ArgumentParser()
 
-  plotDistances(title + ", allPoints", allPoints, 25)
-  plotDistances(title + ", allPoints", allPoints, 25, 10)
-  plotDistances(title + ", outlier", outliers, 25)
+  ap.add_argument("-i", "--input", required=True, help= "Input file")
+  ap.add_argument("-o", "--output",  required=True, help="output file")
+  ap.add_argument("-u", "--outliercount", required=False, help="Number of outliers", default=10)
+  
+  args = vars(ap.parse_args())
+  file_name = args["input"]
+  output_name = args["output"]
+  outlier_count = args["outliercount"]
+  
+  createDimReducedFiles(file_name,output_name, outlier_count)
+  
 
-  plotNormalDistances(title + ", allPoints", allPoints, 25)
-  plotNormalDistances(title + ", outlier", outliers, 25)
 
-  averageAngle(title + ", allPoints", allPoints, 25)
-  averageAngle(title + ", allPoints-out", allPoints, 25, 10)
-  averageAngle(title + ", outlier", outliers, 25)
-
-runOptDigits();
-#runMfeat();
-#runIsolet();
-
-print("Done plot")
+  print("Done plot")
