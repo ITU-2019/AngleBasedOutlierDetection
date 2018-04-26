@@ -19,8 +19,8 @@ do
         cd "optdigit"
 
         # idea for generating test files
-        #        file,  input file,                   dims, output dir
-        # python gen.py ../../data/optdigits_39_0.txt $j    ../../data/
+        #        file,  input file,                   dims, output file
+        # python gen.py ../../data/optdigits_39_0.txt $j    ../../data/optdigits_39_0--$j.txt
 
         ../../Outlier--KDD08.exe "../../data/optdigits_39_0--$j.txt" 1144 $j
         ../../Outlier--KDD12.exe "../../data/optdigits_39_0--$j.txt" 1144 $j
