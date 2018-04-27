@@ -2,6 +2,8 @@
 
 Dependencies:
 
+1. A Ubuntu machine 
+
 ```bash
 python -m pip install --upgrade pip
 pip install numpy
