@@ -8,9 +8,9 @@
 
 for k in 1 2 3 4 5
 do
-    ./masterScript.sh $k optdigits_39_0  1144 &&
-    ./masterScript.sh $k mfeat_69_0       410 &&
-    ./masterScript.sh $k isolet_CDE_Y     910
+    ./masterScript.sh $k optdigits_39_0  1144 &
+    ./masterScript.sh $k mfeat_69_0       410 &
+    ./masterScript.sh $k isolet_CDE_Y     910 &
 done
 
 
