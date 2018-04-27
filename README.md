@@ -17,7 +17,7 @@ To run the code. go into the fht_repo folder run:
 cd fht_repo
 python setup.py build
 cd ..
-mv fht_repo/fht build
+mv fht_repo/build/lib.linux-....-3.5/fht build/
 ```
 
 Go into the build folder generated inside the fht_repo folder and then into the lib folder, and move the folder called fht to the build folder in root.
