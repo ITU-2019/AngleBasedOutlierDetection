@@ -17,6 +17,10 @@ do
     ../../Outlier-LBABOD.exe     "../../../data_reduced/$2/$2-$1-$j.txt" $3 $j
     ../../Outlier-LOF.exe        "../../../data_reduced/$2/$2-$1-$j.txt" $3 $j
     ../../Outlier-KNN.exe        "../../../data_reduced/$2/$2-$1-$j.txt" $3 $j
-    ../../Outlier-AMS.exe        "../../../data_reduced/$2/$2-$1-$j.txt" $3 $j
+    #../../Outlier-AMS.exe        "../../../data_reduced/$2/$2-$1-$j.txt" $3 $j
+    ../../Outlier-AMS-Tofast.exe "../../../data_reduced/$2/$2-$1-$j.txt" $3 $j
+    ../../Outlier-AMS-Fast.exe   "../../../data_reduced/$2/$2-$1-$j.txt" $3 $j
+    ../../Outlier-AMS-Medium.exe "../../../data_reduced/$2/$2-$1-$j.txt" $3 $j
+    #../../Outlier-AMS-Brute.exe  "../../../data_reduced/$2/$2-$1-$j.txt" $3 $j
 done
 cd ".."
