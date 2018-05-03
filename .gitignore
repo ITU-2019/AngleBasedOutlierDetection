@@ -38,3 +38,6 @@ __pycache__/
 .vscode
 
 build/data/output
+
+data_reduced/
+plots/
