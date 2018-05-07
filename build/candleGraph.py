@@ -82,7 +82,7 @@ def simple_plot(datasets, title, safeLocation):
     plt.xlabel('Dimensions', labelpad=-5 )
     plt.ylabel('Index', labelpad=-2 )
     plt.title(title)
-    plt.ylim((0,100))
+    #plt.ylim((0,100))
     plt.xticks(np.arange(12),('','2','4','8','16','32','64','128','256','512','1024', ''),rotation=20)
     plt.savefig(safeLocation +'.png')
     #plt.show()
@@ -103,7 +103,7 @@ if __name__ == "__main__":
     algorithm_args = args["algorithm"]
 
     #data = directory_to_pairs("../Results/results-with-brute/", "mfeat_69_0/" ,regex_filter=r'_aABOD--\d*.txt')
-    data = directory_to_pairs(directory_args, file_args + "/" , (algorithm_args + '--\d*.txt'), args["runNumber"])
+    data = directory_to_pairs(directory_args, file_args + "/" , ('('+ algorithm_args + ')((--\d+.txt)|(\d+--.txt))'), args["runNumber"])
     
     simple_plot(data, args["namePlot"] , args["safePlotLocation"])
 
