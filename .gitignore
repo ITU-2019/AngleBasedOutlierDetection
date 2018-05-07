@@ -40,4 +40,5 @@ __pycache__/
 build/data/output
 
 data_reduced/
+results/
 plots/
