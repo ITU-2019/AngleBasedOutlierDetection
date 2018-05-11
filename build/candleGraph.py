@@ -13,7 +13,7 @@ def atoi(text):
     return int(text) if text.isdigit() else text
 
 def natural_keys(text):
-    return [ atoi(c) for c in re.split('(\d+)', text) ]
+    return [ atoi(c) for c in re.split(r'(\d+)', text) ]
 
 def directory_to_pairs(dir_path, dataset_dir_name, regex_filter, runNumber):
     combinedDatasets = []
@@ -22,7 +22,6 @@ def directory_to_pairs(dir_path, dataset_dir_name, regex_filter, runNumber):
         files = [f for f in listdir(full_dir_path) if isfile(join(full_dir_path,f))]
 
         if regex_filter:
-            regex = re.compile(regex_filter)
             files = [f for f in files if re.match(regex_filter,f)]
         datasets = []
 
@@ -95,7 +94,7 @@ if __name__ == "__main__":
     ap.add_argument("-a", "--algorithm", required=True, help="The algorithm to plot")
     ap.add_argument("-n", "--namePlot", required=True, help="The name of the plot")
     ap.add_argument("-s", "--safePlotLocation", required=True, help="Save the plot to this location")
-    ap.add_argument("-r", "--runNumber",required=False, default=5, help="The number of runs to plot data from")
+    ap.add_argument("-r", "--runNumber",required=False, default=5, help="The number of runs to plot data from", type=int)
 
     args = vars(ap.parse_args())
     file_args = args["file"]
