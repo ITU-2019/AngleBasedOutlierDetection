@@ -13,28 +13,7 @@ def atoi(text):
     return int(text) if text.isdigit() else text
 
 def natural_keys(text):
-    return [ atoi(c) for c in re.split('(\d+)', text) ]
-
-def get_average():
-    print("NEW TESTS")
-    sum = 0.0
-    for i in range(51, 100):
-        #open_file=open("results-dimReduc/run" + str(i) + "/isolet_CDE_Y/_LOF--32--time.txt","r")
-        #open_file=open("results-org/run" + str(i) + "/isolet_CDE_Y/_LOF--617--time.txt","r")
-
-        open_file=open("results-dimReduc/run" + str(i) + "/isolet_CDE_Y/_aABOD--32--time.txt","r")
-        #open_file=open("results-org/run" + str(i) + "/isolet_CDE_Y/_aABOD--617--time.txt","r")
-
-        #open_file=open("results-dimReduc/run" + str(i) + "/isolet_CDE_Y/_aANGLE--32--BRUTE--time.txt","r")
-        #open_file=open("results-org/run" + str(i) + "/isolet_CDE_Y/_aANGLE--617--BRUTE--time.txt","r")
-        file_lines=open_file.readlines()
-        clock = file_lines[0].strip()  # Second Line
-        time = file_lines[1].strip()  # Second Line
-
-        sum += float(time)
-
-        print(str(i) + " : "+ time + " -- "+clock)
-    print("average: " + str(sum/50.0) + " seconds")
+    return [ atoi(c) for c in re.split(r'(\d+)', text) ]
 
 def directory_to_pairs(dir_path, dataset_dir_name, regex_filter, runNumber):
     combinedDatasets = []
@@ -43,7 +22,6 @@ def directory_to_pairs(dir_path, dataset_dir_name, regex_filter, runNumber):
         files = [f for f in listdir(full_dir_path) if isfile(join(full_dir_path,f))]
 
         if regex_filter:
-            regex = re.compile(regex_filter)
             files = [f for f in files if re.match(regex_filter,f)]
         datasets = []
 
@@ -112,18 +90,18 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
 
     ap.add_argument("-f", "--file", required=True, help ="The file name the plot should be mad on")
+    ap.add_argument("-d", "--directory", required=True, help="The directory containing the runs")
     ap.add_argument("-a", "--algorithm", required=True, help="The algorithm to plot")
     ap.add_argument("-n", "--namePlot", required=True, help="The name of the plot")
     ap.add_argument("-s", "--safePlotLocation", required=True, help="Save the plot to this location")
-    ap.add_argument("-r", "--runNumber",required=False, default=5, help="The number of runs to plot data from")
-
-    get_average()
+    ap.add_argument("-r", "--runNumber",required=False, default=5, help="The number of runs to plot data from", type=int)
 
     args = vars(ap.parse_args())
     file_args = args["file"]
+    directory_args = args["directory"]
     algorithm_args = args["algorithm"]
 
     #data = directory_to_pairs("../Results/results-with-brute/", "mfeat_69_0/" ,regex_filter=r'_aABOD--\d*.txt')
-    #data = directory_to_pairs(directory_args, file_args + "/" , ('('+ algorithm_args + ')((--\d+.txt)|(\d+--.txt))'), args["runNumber"])
+    data = directory_to_pairs(directory_args, file_args + "/" , ('('+ algorithm_args + ')((--\d+.txt)|(\d+--.txt))'), args["runNumber"])
 
-    #simple_plot(data, args["namePlot"] , args["safePlotLocation"])
+    simple_plot(data, args["namePlot"] , args["safePlotLocation"])
