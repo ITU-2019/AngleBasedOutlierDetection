@@ -67,7 +67,7 @@ def simple_plot(datasets, title, safeLocation):
     (_ , ax) = plt.subplots()
 
     outlier_dict = {}
-    
+
     for run in datasets:
         for filename, pair_list in run:
             if(natural_keys(filename)[1] not in outlier_dict):
@@ -103,6 +103,5 @@ if __name__ == "__main__":
 
     #data = directory_to_pairs("../Results/results-with-brute/", "mfeat_69_0/" ,regex_filter=r'_aABOD--\d*.txt')
     data = directory_to_pairs(directory_args, file_args + "/" , ('('+ algorithm_args + ')((--\d+.txt)|(\d+--.txt))'), args["runNumber"])
-    
-    simple_plot(data, args["namePlot"] , args["safePlotLocation"])
 
+    simple_plot(data, args["namePlot"] , args["safePlotLocation"])
